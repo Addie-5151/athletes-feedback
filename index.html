@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>运动员反馈</title>
+<style>
+:root {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface2: #faf9f7;
+  --border: #e8e6de;
+  --border-mid: #d4d1c7;
+  --text: #1c1b18;
+  --text-muted: #78766e;
+  --text-light: #b0ada4;
+  --accent: #2563eb;
+  --pos: #16a34a; --pos-bg: #f0fdf4; --pos-border: #bbf7d0;
+  --neg: #dc2626; --neg-bg: #fff1f2; --neg-border: #fecdd3;
+  --neu: #d97706; --neu-bg: #fffbeb; --neu-border: #fde68a;
+  --que: #7c3aed; --que-bg: #f5f3ff; --que-border: #ddd6fe;
+  --radius: 8px; --radius-lg: 14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);font-size:13px}
+
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.logo{font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.sync-info{font-size:11px;color:var(--text-light)}
+.refresh-btn{padding:4px 10px;border:1px solid var(--border-mid);border-radius:var(--radius);background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:12px}
+
+
+.page{padding:24px 28px;max-width:1200px}
+
+/* ── PART 1 ── */
+.part-label{font-size:11px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+
+/* sentiment overview */
+.sent-overview{display:grid;grid-template-columns:auto 1fr;gap:24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:20px;align-items:center}
+.donut-wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+.donut-legend{display:flex;flex-direction:column;gap:8px}
+.dl-item{display:flex;align-items:center;gap:8px;font-size:12px}
+.dl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.dl-label{color:var(--text-muted);flex:1}
+.dl-count{font-weight:700;font-size:14px}
+.dl-pct{font-size:11px;color:var(--text-light);margin-left:4px}
+.sent-right{display:flex;flex-direction:column;gap:10px}
+.sent-bar-row{display:flex;align-items:center;gap:10px}
+.sent-bar-label{font-size:12px;color:var(--text-muted);width:32px;flex-shrink:0}
+.sent-bar-track{flex:1;background:var(--bg);border-radius:4px;height:20px;overflow:hidden}
+.sent-bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:600;color:#fff;transition:width .5s}
+.sent-bar-num{font-size:12px;font-weight:600;width:24px;text-align:right}
+
+/* keyword strip */
+.kw-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:20px}
+.kw-title{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:14px}
+.kw-cloud{display:flex;flex-wrap:wrap;gap:8px}
+.kw-tag{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:default;transition:transform .1s}
+.kw-tag:hover{transform:scale(1.05)}
+
+/* voice cards */
+.voices-title{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:12px}
+.voices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-bottom:20px}
+.voice-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;border-left:3px solid var(--border-mid)}
+.voice-card.pos{border-left-color:var(--pos)}.voice-card.neg{border-left-color:var(--neg)}.voice-card.neu{border-left-color:var(--neu)}.voice-card.que{border-left-color:var(--que)}
+.voice-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-bottom:8px}
+.badge-pos{background:var(--pos-bg);color:var(--pos);border:1px solid var(--pos-border)}
+.badge-neg{background:var(--neg-bg);color:var(--neg);border:1px solid var(--neg-border)}
+.badge-neu{background:var(--neu-bg);color:var(--neu);border:1px solid var(--neu-border)}
+.badge-que{background:var(--que-bg);color:var(--que);border:1px solid var(--que-border)}
+.voice-text{font-size:13px;line-height:1.6;color:var(--text);margin-bottom:8px}
+.voice-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.voice-src{font-size:10px;color:var(--text-light)}
+.voice-kw{font-size:10px;padding:1px 6px;border-radius:4px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted)}
+.voice-count{font-size:10px;color:var(--text-light);margin-left:auto}
+
+/* dept */
+.dept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:28px}
+.dept-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px}
+.dept-name{font-size:12px;font-weight:700;margin-bottom:3px}
+.dept-count{font-size:11px;color:var(--text-muted);margin-bottom:10px}
+.dept-issue{font-size:11px;padding:5px 8px;border-radius:5px;background:var(--bg);margin-bottom:4px;line-height:1.4;color:var(--text)}
+.dept-issue.urgent{background:var(--neg-bg);color:var(--neg)}
+
+/* divider */
+.divider{border:none;border-top:1px solid var(--border);margin:28px 0}
+
+/* ── PART 2 spotlight ── */
+.case-list{display:flex;flex-direction:column;gap:16px}
+.case-card{background:var(--surface);border:1px solid var(--border-mid);border-radius:var(--radius-lg);overflow:hidden}
+.case-header{background:#fffbeb;border-bottom:1px solid #fde68a;padding:12px 20px;display:flex;align-items:center;gap:10px}
+.case-num{font-size:12px;font-weight:700;color:#92400e;background:#fef3c7;padding:2px 10px;border-radius:20px}
+.case-week{font-size:11px;color:#b45309}
+.case-src{font-size:11px;color:#b45309;margin-left:auto}
+.case-body{padding:16px 20px}
+.case-content{font-size:13px;line-height:1.7;color:var(--text);margin-bottom:12px;padding:12px 14px;background:var(--surface2);border-radius:var(--radius);border-left:3px solid #f59e0b}
+.case-tags{display:flex;gap:6px;flex-wrap:wrap}
+.case-tag{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted)}
+
+.empty{text-align:center;padding:48px;color:var(--text-muted);font-size:13px}
+.config-banner{background:#fffbeb;border-bottom:1px solid #fde68a;padding:10px 28px;font-size:12px;color:#92400e}
+.config-banner code{background:#fef3c7;padding:1px 5px;border-radius:4px;font-family:monospace}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">运动员反馈</div>
+  <div class="header-right">
+    <span class="sync-info" id="sync-time">—</span>
+    <span class="sync-info" id="countdown"></span>
+    <button class="refresh-btn" onclick="manualRefresh()">↻ 刷新</button>
+  </div>
+</header>
+
+  <div class="filter-group">
+    <button class="filter-btn active" onclick="setFilter('all',this)">全部</button>
+    <button class="filter-btn" onclick="setFilter('负面',this)">🔴 负面</button>
+    <button class="filter-btn" onclick="setFilter('正面',this)">🟢 正面</button>
+    <button class="filter-btn" onclick="setFilter('疑问',this)">🟣 疑问</button>
+    <button class="filter-btn" onclick="setFilter('中性',this)">🟡 中性</button>
+  </div>
+</div>
+
+<div class="page" id="app"><div style="padding:60px;text-align:center;color:var(--text-muted)">正在加载…</div></div>
+
+<script>
+const SHEET_ID = 'YOUR_FEEDBACK_SHEET_ID';
+
+let data = { social:[], coze:[], onsite:[], spotlight:[] };
+let currentWeek = 'all', currentFilter = 'all';
+
+const SENT_COLOR = {'正面':'#16a34a','负面':'#dc2626','中性':'#d97706','疑问':'#7c3aed'};
+const SENT_BG    = {'正面':'#f0fdf4','负面':'#fff1f2','中性':'#fffbeb','疑问':'#f5f3ff'};
+const SENT_CLASS = {'正面':'pos','负面':'neg','中性':'neu','疑问':'que'};
+const BADGE_CLS  = {'正面':'badge-pos','负面':'badge-neg','中性':'badge-neu','疑问':'badge-que'};
+const SENT_EMOJI = {'正面':'✅','负面':'⚠️','中性':'➖','疑问':'❓'};
+
+const DEPT_MAP = [
+  {dept:'运营组',   color:'#2563eb', keywords:['报名','流程','成绩','通知','时间','赛程','截止']},
+  {dept:'补给组',   color:'#16a34a', keywords:['补给','水','食物','香蕉','能量胶','补给站']},
+  {dept:'志愿者组', color:'#7c3aed', keywords:['志愿者','引导','服务','态度','工作人员']},
+  {dept:'赛道组',   color:'#d97706', keywords:['赛道','路线','标识','指示','坡度','距离']},
+  {dept:'设施组',   color:'#dc2626', keywords:['设施','厕所','更衣室','存包','停车']},
+  {dept:'医疗组',   color:'#0891b2', keywords:['医疗','救护','急救','安全','受伤']},
+  {dept:'传播组',   color:'#be185d', keywords:['照片','摄影','直播','媒体','宣传']},
+];
+
+async function loadData() {
+  if (SHEET_ID === 'YOUR_FEEDBACK_SHEET_ID') { showDemo(); return; }
+  try {
+    const sheets = {social:'社交媒体', coze:'CoZe聊天', onsite:'现场反馈', spotlight:'重点关注'};
+    const results = await Promise.all(Object.entries(sheets).map(async ([k,name]) => {
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`;
+      const res = await fetch(url);
+      return [k, parseCSV(await res.text())];
+    }));
+    results.forEach(([k,rows]) => data[k]=rows);
+    document.getElementById('sync-time').textContent = '同步于 '+new Date().toLocaleTimeString('zh-CN');
+    buildWeeks(); render();
+  } catch(e) {
+    document.getElementById('app').innerHTML = `<div class="empty">加载失败：${e.message}</div>`;
+  }
+}
+
+function parseCSV(csv) {
+  const lines=csv.trim().split('\n'); if(lines.length<2) return [];
+  const headers=parseRow(lines[0]);
+  return lines.slice(1).map(line=>{
+    const vals=parseRow(line), obj={};
+    headers.forEach((h,i)=>obj[h.trim()]=(vals[i]||'').trim().replace(/^"|"$/g,''));
+    return obj;
+  }).filter(r=>r['内容']);
+}
+function parseRow(line) {
+  const r=[]; let c='', q=false;
+  for(let i=0;i<line.length;i++){
+    if(line[i]==='"'){q=!q;}
+    else if(line[i]===','&&!q){r.push(c);c='';}
+    else c+=line[i];
+  }
+  r.push(c); return r;
+}
+
+function buildWeeks() {
+  const all=[...data.social,...data.coze,...data.onsite];
+  const ws=[...new Set(all.map(r=>r['周次']).filter(Boolean))].sort();
+  document.getElementById('week-group').innerHTML =
+    `<button class="week-btn active" onclick="setWeek('all',this)">全部</button>` +
+    ws.map(w=>`<button class="week-btn" onclick="setWeek('${w}',this)">${w}</button>`).join('');
+}
+
+function getRows(key) {
+  return data[key].filter(r=>{
+    const wm=currentWeek==='all'||r['周次']===currentWeek;
+    const fm=currentFilter==='all'||r['情感倾向']===currentFilter;
+    return wm&&fm;
+  });
+}
+function getAllRows() { return [...getRows('social'),...getRows('coze'),...getRows('onsite')]; }
+
+function setWeek(w,btn) {
+  currentWeek=w;
+  document.querySelectorAll('.week-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  render();
+}
+function setFilter(f,btn) {
+  currentFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  render();
+}
+
+function render() {
+  const all = getAllRows();
+  const spotlight = data.spotlight.filter(r=>currentWeek==='all'||r['周次']===currentWeek);
+  document.getElementById('app').innerHTML = renderPart1(all) + renderPart2(spotlight);
+}
+
+// ── PART 1 ───────────────────────────────────────────────
+function renderPart1(all) {
+  const counts={'正面':0,'负面':0,'中性':0,'疑问':0};
+  all.forEach(r=>{ if(counts[r['情感倾向']]!==undefined) counts[r['情感倾向']]++; });
+  const total=all.length||1;
+
+  // keywords
+  const kwMap={};
+  all.forEach(r=>{
+    (r['关键词']||'').split(',').forEach(k=>{
+      k=k.trim(); if(k) kwMap[k]=(kwMap[k]||0)+(parseInt(r['出现次数'])||1);
+    });
+  });
+  const topKw=Object.entries(kwMap).sort((a,b)=>b[1]-a[1]).slice(0,16);
+  const maxKw=topKw[0]?topKw[0][1]:1;
+
+  // dept
+  const deptCards=buildDeptCards(all);
+
+  return `
+  <div class="part-label">第一部分 · 反馈声音概览</div>
+
+  <div class="sent-overview">
+    <div class="donut-wrap">
+      ${renderDonut(counts,total)}
+      <div style="font-size:11px;color:var(--text-muted)">${total} 条反馈</div>
+    </div>
+    <div class="sent-right">
+      ${Object.entries(counts).map(([k,v])=>`
+        <div class="sent-bar-row">
+          <span class="sent-bar-label" style="color:${SENT_COLOR[k]}">${k}</span>
+          <div class="sent-bar-track">
+            <div class="sent-bar-fill" style="width:${v/total*100}%;background:${SENT_COLOR[k]}">
+              ${v>0?v:''}
+            </div>
+          </div>
+          <span class="sent-bar-num" style="color:${SENT_COLOR[k]}">${Math.round(v/total*100)}%</span>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <div class="kw-section">
+    <div class="kw-title">高频关键词</div>
+    <div class="kw-cloud">
+      ${topKw.map(([k,v])=>{
+        const size=Math.max(11,Math.min(16,11+v/maxKw*5));
+        const opacity=0.4+v/maxKw*0.6;
+        return `<span class="kw-tag" style="font-size:${size}px;background:${hexAlpha('#2563eb',opacity)};color:#fff">${k} ${v>1?'×'+v:''}</span>`;
+      }).join('')}
+    </div>
+  </div>
+
+  ${all.length ? `
+  <div class="voices-title">原声摘录</div>
+  <div class="voices-grid">
+    ${all.map(r=>renderVoiceCard(r)).join('')}
+  </div>` : ''}
+
+  ${deptCards.length ? `
+  <div class="voices-title">部门定向建议</div>
+  <div class="dept-grid">${deptCards.map(renderDeptCard).join('')}</div>` : ''}
+
+  <hr class="divider">`;
+}
+
+function hexAlpha(hex, alpha) {
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function renderDonut(counts, total) {
+  const colorMap={'正面':'#16a34a','负面':'#dc2626','中性':'#d97706','疑问':'#7c3aed'};
+  const size=100, cx=50, cy=50, r=36, sw=12, circ=2*Math.PI*r;
+  let offset=0, paths='';
+  Object.entries(counts).forEach(([k,v])=>{
+    const pct=v/total, dash=pct*circ;
+    if(v>0) paths+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${colorMap[k]}" stroke-width="${sw}" stroke-dasharray="${dash} ${circ-dash}" stroke-dashoffset="${-offset*circ}" transform="rotate(-90 ${cx} ${cy})"/>`;
+    offset+=pct;
+  });
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#f1f0ec" stroke-width="${sw}"/>
+    ${paths}
+  </svg>`;
+}
+
+function renderVoiceCard(r) {
+  const s=r['情感倾向']||'中性';
+  const kws=(r['关键词']||'').split(',').filter(k=>k.trim());
+  const src=r['平台']||r['类别']||'';
+  const cnt=r['出现次数'];
+  return `<div class="voice-card ${SENT_CLASS[s]||'neu'}">
+    <span class="voice-badge ${BADGE_CLS[s]||'badge-neu'}">${SENT_EMOJI[s]} ${s}</span>
+    <div class="voice-text">"${r['内容']||''}"</div>
+    <div class="voice-meta">
+      ${src?`<span class="voice-src">${src}</span>`:''}
+      ${kws.slice(0,3).map(k=>`<span class="voice-kw">${k.trim()}</span>`).join('')}
+      ${cnt&&cnt>1?`<span class="voice-count">×${cnt}</span>`:''}
+    </div>
+  </div>`;
+}
+
+function buildDeptCards(rows) {
+  return DEPT_MAP.map(d=>{
+    const matched=rows.filter(r=>{
+      const txt=(r['内容']||'')+(r['关键词']||'');
+      return d.keywords.some(kw=>txt.includes(kw));
+    });
+    const neg=matched.filter(r=>r['情感倾向']==='负面');
+    return {...d, count:matched.length, negIssues:neg.slice(0,3)};
+  }).filter(d=>d.count>0);
+}
+
+function renderDeptCard(d) {
+  return `<div class="dept-card" style="border-top:3px solid ${d.color}">
+    <div class="dept-name" style="color:${d.color}">${d.dept}</div>
+    <div class="dept-count">${d.count} 条相关反馈${d.negIssues.length?'，'+d.negIssues.length+' 条需跟进':''}</div>
+    ${d.negIssues.map(r=>`<div class="dept-issue urgent">${r['内容'].slice(0,38)}${r['内容'].length>38?'…':''}</div>`).join('')}
+    ${!d.negIssues.length?`<div class="dept-issue" style="color:var(--text-light)">无负面反馈</div>`:''}
+  </div>`;
+}
+
+// ── PART 2 ───────────────────────────────────────────────
+function renderPart2(spotlight) {
+  if(!spotlight.length) return `
+    <div class="part-label">第二部分 · 重点关注</div>
+    <div class="empty" style="background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border)">
+      暂无重点关注内容<br>
+      <span style="font-size:11px;color:var(--text-light);margin-top:6px;display:block">在 Sheets「重点关注」中添加需要讨论的帖子</span>
+    </div>`;
+
+  return `
+    <div class="part-label">第二部分 · 重点关注</div>
+    <div class="case-list">
+      ${spotlight.map((r,i)=>`
+        <div class="case-card">
+          <div class="case-header">
+            <span class="case-num">Case ${i+1}</span>
+            ${r['周次']?`<span class="case-week">${r['周次']}</span>`:''}
+            ${(r['平台']||r['类别'])?`<span class="case-src">${r['平台']||r['类别']}</span>`:''}
+          </div>
+          <div class="case-body">
+            <div class="case-content">${r['内容']||''}</div>
+            <div class="case-tags">
+              ${r['情感倾向']?`<span class="case-tag" style="background:${SENT_BG[r['情感倾向']]};color:${SENT_COLOR[r['情感倾向']]}">${SENT_EMOJI[r['情感倾向']]} ${r['情感倾向']}</span>`:''}
+              ${(r['关键词']||'').split(',').filter(k=>k.trim()).map(k=>`<span class="case-tag">${k.trim()}</span>`).join('')}
+            </div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+// ── DEMO ─────────────────────────────────────────────────
+function showDemo() {
+  data = {
+    social:[
+      {周次:'W1',平台:'小红书',内容:'补给站的西瓜太好吃了！下次还来！',情感倾向:'正面',关键词:'补给,西瓜',出现次数:'8'},
+      {周次:'W1',平台:'微博',内容:'报名系统老是崩，交了钱不知道报上没有',情感倾向:'负面',关键词:'报名,系统',出现次数:'15'},
+      {周次:'W1',平台:'抖音',内容:'完赛那一刻真的哭了，太有成就感',情感倾向:'正面',关键词:'完赛,感动',出现次数:'23'},
+      {周次:'W1',平台:'小红书',内容:'赛道标识不够清楚，差点跑错路',情感倾向:'负面',关键词:'赛道,标识',出现次数:'9'},
+      {周次:'W1',平台:'微博',内容:'志愿者小姐姐超热情，一直给我加油',情感倾向:'正面',关键词:'志愿者,服务',出现次数:'12'},
+      {周次:'W2',平台:'小红书',内容:'15km处没水了，跑到脱水',情感倾向:'负面',关键词:'补给,水',出现次数:'18'},
+      {周次:'W2',平台:'抖音',内容:'摄影团队好专业，照片出来很好看',情感倾向:'正面',关键词:'照片,摄影',出现次数:'6'},
+    ],
+    coze:[
+      {周次:'W1',类别:'报名问题',内容:'报名截止日期是什么时候？',情感倾向:'疑问',关键词:'报名,截止',出现次数:'22'},
+      {周次:'W1',类别:'补给咨询',内容:'比赛途中有没有能量胶补给？',情感倾向:'疑问',关键词:'能量胶,补给',出现次数:'14'},
+      {周次:'W1',类别:'表扬',内容:'工作人员服务态度真的很好',情感倾向:'正面',关键词:'服务,态度',出现次数:'7'},
+      {周次:'W1',类别:'投诉',内容:'更衣室太少了，排队排了很久',情感倾向:'负面',关键词:'更衣室,设施',出现次数:'11'},
+    ],
+    onsite:[
+      {周次:'W1',类别:'补给',内容:'15km补给站的水不够喝',情感倾向:'负面',关键词:'补给,水'},
+      {周次:'W1',类别:'服务',内容:'志愿者引导非常清晰专业',情感倾向:'正面',关键词:'志愿者,引导'},
+      {周次:'W1',类别:'赛道',内容:'最后2公里坡度太大，标识提示不足',情感倾向:'负面',关键词:'赛道,坡度'},
+    ],
+    spotlight:[
+      {周次:'W1',平台:'微博',内容:'有运动员发帖称报名成功但现场找不到号码布，引发多人跟帖，目前已有200+转发。建议运营组核查报名系统数据，并由传播组在官方账号发布回应声明。',情感倾向:'负面',关键词:'号码布,报名,系统'},
+      {周次:'W2',平台:'小红书',内容:'一篇笔记指出补给站食物不符合运动营养需求，获500+收藏，已有媒体账号转发。建议补给组联合营养师团队发布官方回应，说明补给方案设计逻辑。',情感倾向:'负面',关键词:'补给,营养,媒体'},
+    ]
+  };
+  buildWeeks(); render();
+  document.getElementById('sync-time').textContent='示例数据';
+}
+
+// ── AUTO REFRESH ──────────────────────────────────────────
+const INTERVAL=5*60; let cd=INTERVAL;
+setInterval(()=>{
+  cd--;
+  const el=document.getElementById('countdown');
+  if(el) el.textContent=`${Math.floor(cd/60)}:${String(cd%60).padStart(2,'0')} 后刷新`;
+  if(cd<=0){cd=INTERVAL;loadData();}
+},1000);
+function manualRefresh(){cd=INTERVAL;loadData();}
+
+loadData();
+</script>
+</body>
+</html>
