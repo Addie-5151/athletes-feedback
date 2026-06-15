@@ -33,7 +33,9 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .part-label:first-child{margin-top:0}
 
 /* ── PART 1 sentiment overview ── */
-.sent-overview{display:grid;grid-template-columns:auto 1fr;gap:24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:20px;align-items:center}
+.sent-overview{display:grid;grid-template-columns:auto 1fr 1fr;gap:24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:20px;align-items:center}
+.cloud-col{border-left:1px solid var(--border);padding-left:24px;height:100%}
+.cloud-title{font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px}
 .donut-wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
 .donut-legend{display:flex;flex-direction:column;gap:8px}
 .dl-item{display:flex;align-items:center;gap:8px;font-size:12px}
@@ -51,7 +53,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 /* keyword strip */
 .kw-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:20px}
 .kw-title{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:14px}
-.kw-cloud{position:relative;width:100%;height:340px;overflow:hidden}
+.kw-cloud{position:relative;width:100%;height:220px;overflow:hidden}
 .kw-tag{position:absolute;font-weight:800;cursor:default;white-space:nowrap;letter-spacing:.01em;line-height:1;transition:opacity .3s}
 
 /* issue board */
@@ -130,11 +132,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
   <div class="part-label">第一部分 · 反馈声音概览</div>
 
   <div class="sent-overview" id="sent-overview"></div>
-
-  <div class="kw-section">
-    <div class="kw-title">高频关键词</div>
-    <div class="kw-cloud" id="kw-cloud"></div>
-  </div>
 
   <div class="issue-board" id="issue-board"></div>
 
@@ -250,21 +247,26 @@ function renderSentOverview() {
           </div>
           <span class="sent-bar-num" style="color:${SENT_COLOR[k]}">${total?Math.round(v/total*100):0}%</span>
         </div>`).join('')}
+    </div>
+    <div class="cloud-col">
+      <div class="cloud-title">高频关键词</div>
+      <div class="kw-cloud" id="kw-cloud"></div>
     </div>`;
 }
 
 function renderKeywordCloud() {
   const allKw = {};
   issues.forEach(i=>{ i.tags.forEach(t=>{ allKw[t]=(allKw[t]||0)+i.count; }); });
-  let sorted = Object.entries(allKw).sort((a,b)=>b[1]-a[1]).slice(0,18);
+  let sorted = Object.entries(allKw).sort((a,b)=>b[1]-a[1]).slice(0,14);
   const maxV = sorted[0]?sorted[0][1]:1;
   const minV = sorted[sorted.length-1]?sorted[sorted.length-1][1]:1;
   const colors=['#2563eb','#dc2626','#16a34a','#d97706','#7c3aed','#0891b2','#be185d','#0d9488','#ca8a04','#4f46e5'];
 
   const container = document.getElementById('kw-cloud');
+  if(!container) return;
   container.innerHTML = '';
-  const W = container.clientWidth || 900;
-  const H = 340;
+  const W = container.clientWidth || 380;
+  const H = container.clientHeight || 220;
   const cx = W/2, cy = H/2;
 
   // measuring canvas
@@ -275,7 +277,7 @@ function renderKeywordCloud() {
 
   sorted.forEach(([word,val],i)=>{
     const ratio = maxV===minV ? 1 : (val-minV)/(maxV-minV);
-    const size = Math.round(15 + ratio*42); // 15px ~ 57px
+    const size = Math.round(11 + ratio*26); // 11px ~ 37px
     const color = colors[i % colors.length];
 
     ctx.font = `800 ${size}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
@@ -358,7 +360,7 @@ const cases = [
 {
   num:1,
   title:'三大赛事横评：HYROX vs DEKA FIT vs SKYROX',
-  meta:'小红书 · 上海 · W24',
+  meta:'小红书 · 上海',
   sentiment:'负面',
   tags:['性价比','赛事物资','摄影服务','横向对比'],
   intro:`两篇小红书笔记从不同角度对 HYROX 进行了横向对比，互动量较高（首篇54条评论）。第一篇是资深HYROX选手首次参加斯巴达DEKA后的系统性对比；第二篇是参加"SKYROX"（融合HYROX功能训练+垂直爬楼的体验型活动）后的轻松吐槽。两篇内容共同指向同一个问题：在物资、摄影、体验感上，HYROX相对竞品处于劣势。`,
@@ -369,7 +371,7 @@ const cases = [
 {
   num:2,
   title:'HYROX法国里昂选手中暑去世，赛事安全引关注',
-  meta:'小红书 · W24',
+  meta:'小红书',
   sentiment:'负面',
   tags:['赛事安全','中暑','医疗保障','极端天气'],
   content:`小红书账号"健局"发布笔记，引用法国里昂HYROX赛事中一名28岁女性参赛者因运动性高热（hyperthermia）去世的新闻，讨论HYROX全球扩张下的赛事安全问题。评论区有用户猜测系选手自身基础病所致。`,
@@ -379,7 +381,7 @@ const cases = [
 {
   num:3,
   title:'杭州站女子接力赛安排在晚8点，选手吐槽"不友好"',
-  meta:'小红书 · 杭州 · W24',
+  meta:'小红书 · 杭州',
   sentiment:'负面',
   tags:['赛程安排','女子组别','赛事时间'],
   content:`选手发布笔记吐槽杭州站女子接力赛安排在晚上8点开赛，标题"我直接睡着了"，配文"杭州你对女子不太友好了"。评论区多人共鸣（"无语""真该死啊""看到就直接吐槽了"），也有选手表示理解（"男子四人终于不是最后了"）。`,
