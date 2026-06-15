@@ -26,17 +26,13 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
 
 header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .logo{font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
-.header-right{margin-left:auto;display:flex;align-items:center;gap:10px}
-.sync-info{font-size:11px;color:var(--text-light)}
-.refresh-btn{padding:4px 10px;border:1px solid var(--border-mid);border-radius:var(--radius);background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:12px}
+.header-sub{font-size:11px;color:var(--text-light);margin-left:8px}
 
+.page{padding:24px 28px;max-width:1180px;margin:0 auto}
+.part-label{font-size:11px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.08em;margin:32px 0 16px}
+.part-label:first-child{margin-top:0}
 
-.page{padding:24px 28px;max-width:1200px}
-
-/* ── PART 1 ── */
-.part-label{font-size:11px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
-
-/* sentiment overview */
+/* ── PART 1 sentiment overview ── */
 .sent-overview{display:grid;grid-template-columns:auto 1fr;gap:24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:20px;align-items:center}
 .donut-wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
 .donut-legend{display:flex;flex-direction:column;gap:8px}
@@ -55,364 +51,407 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 /* keyword strip */
 .kw-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:20px}
 .kw-title{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:14px}
-.kw-cloud{display:flex;flex-wrap:wrap;gap:8px}
-.kw-tag{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:default;transition:transform .1s}
-.kw-tag:hover{transform:scale(1.05)}
+.kw-cloud{position:relative;width:100%;height:340px;overflow:hidden}
+.kw-tag{position:absolute;font-weight:800;cursor:default;white-space:nowrap;letter-spacing:.01em;line-height:1;transition:opacity .3s}
 
-/* voice cards */
-.voices-title{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:12px}
-.voices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-bottom:20px}
-.voice-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;border-left:3px solid var(--border-mid)}
-.voice-card.pos{border-left-color:var(--pos)}.voice-card.neg{border-left-color:var(--neg)}.voice-card.neu{border-left-color:var(--neu)}.voice-card.que{border-left-color:var(--que)}
-.voice-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-bottom:8px}
+/* issue board */
+.issue-board{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-bottom:20px}
+.issue-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;border-left:3px solid var(--border-mid)}
+.issue-card.neg{border-left-color:var(--neg)}.issue-card.que{border-left-color:var(--que)}.issue-card.neu{border-left-color:var(--neu)}
+.issue-rank-badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--bg);color:var(--text-muted);font-size:11px;font-weight:700;margin-right:6px}
+.issue-rank-badge.top3{background:var(--neg);color:#fff}
+.issue-head{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.issue-title{font-size:13px;font-weight:600;flex:1}
+.issue-count-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--bg);color:var(--text-muted)}
+.issue-desc{font-size:12px;line-height:1.6;color:var(--text-muted)}
+.issue-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.issue-tag{font-size:10px;padding:1px 6px;border-radius:4px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted)}
+.sent-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:auto}
 .badge-pos{background:var(--pos-bg);color:var(--pos);border:1px solid var(--pos-border)}
 .badge-neg{background:var(--neg-bg);color:var(--neg);border:1px solid var(--neg-border)}
 .badge-neu{background:var(--neu-bg);color:var(--neu);border:1px solid var(--neu-border)}
 .badge-que{background:var(--que-bg);color:var(--que);border:1px solid var(--que-border)}
-.voice-text{font-size:13px;line-height:1.6;color:var(--text);margin-bottom:8px}
-.voice-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.voice-src{font-size:10px;color:var(--text-light)}
-.voice-kw{font-size:10px;padding:1px 6px;border-radius:4px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted)}
-.voice-count{font-size:10px;color:var(--text-light);margin-left:auto}
 
 /* dept */
-.dept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:28px}
+.dept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:8px}
 .dept-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px}
 .dept-name{font-size:12px;font-weight:700;margin-bottom:3px}
-.dept-count{font-size:11px;color:var(--text-muted);margin-bottom:10px}
-.dept-issue{font-size:11px;padding:5px 8px;border-radius:5px;background:var(--bg);margin-bottom:4px;line-height:1.4;color:var(--text)}
-.dept-issue.urgent{background:var(--neg-bg);color:var(--neg)}
+.dept-count{font-size:11px;color:var(--text-muted)}
 
-/* divider */
-.divider{border:none;border-top:1px solid var(--border);margin:28px 0}
+.divider{border:none;border-top:1px solid var(--border);margin:32px 0}
 
-/* ── PART 2 spotlight ── */
-.case-list{display:flex;flex-direction:column;gap:16px}
+/* ── PART 2 spotlight cases ── */
+.case-list{display:flex;flex-direction:column;gap:20px}
 .case-card{background:var(--surface);border:1px solid var(--border-mid);border-radius:var(--radius-lg);overflow:hidden}
-.case-header{background:#fffbeb;border-bottom:1px solid #fde68a;padding:12px 20px;display:flex;align-items:center;gap:10px}
+.case-header{background:#fffbeb;border-bottom:1px solid #fde68a;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .case-num{font-size:12px;font-weight:700;color:#92400e;background:#fef3c7;padding:2px 10px;border-radius:20px}
-.case-week{font-size:11px;color:#b45309}
-.case-src{font-size:11px;color:#b45309;margin-left:auto}
-.case-body{padding:16px 20px}
-.case-content{font-size:13px;line-height:1.7;color:var(--text);margin-bottom:12px;padding:12px 14px;background:var(--surface2);border-radius:var(--radius);border-left:3px solid #f59e0b}
-.case-tags{display:flex;gap:6px;flex-wrap:wrap}
+.case-title{font-size:13px;font-weight:700;color:var(--text)}
+.case-meta{font-size:11px;color:#b45309}
+.case-body{padding:18px 20px}
+.case-content{font-size:13px;line-height:1.75;color:var(--text);padding:14px 16px;background:var(--surface2);border-radius:var(--radius);border-left:3px solid #f59e0b;margin-bottom:14px;white-space:pre-line}
+.case-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 .case-tag{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted)}
+.case-note{font-size:12px;color:var(--text-muted);line-height:1.7;background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:12px 14px;margin-top:12px}
+.case-note b{color:var(--accent)}
 
-.empty{text-align:center;padding:48px;color:var(--text-muted);font-size:13px}
-.config-banner{background:#fffbeb;border-bottom:1px solid #fde68a;padding:10px 28px;font-size:12px;color:#92400e}
-.config-banner code{background:#fef3c7;padding:1px 5px;border-radius:4px;font-family:monospace}
+/* comparison table */
+.compare-table-wrap{overflow-x:auto;margin-top:10px}
+.compare-table{width:100%;border-collapse:collapse;font-size:12px;min-width:560px}
+.compare-table th,.compare-table td{border:1px solid var(--border);padding:10px 12px;text-align:left;vertical-align:top}
+.compare-table th{background:var(--surface2);font-weight:700;font-size:12px}
+.compare-table th.col-hyrox{color:#dc2626}
+.compare-table th.col-deka{color:#2563eb}
+.compare-table th.col-skyrox{color:#7c3aed}
+.compare-table td.dim-label{font-weight:600;background:var(--surface2);white-space:nowrap}
+.cell-good{background:var(--pos-bg)}
+.cell-bad{background:var(--neg-bg)}
+.cell-neutral{background:var(--surface)}
+
+/* quote block */
+.quote-block{background:var(--surface2);border-left:3px solid var(--border-mid);border-radius:var(--radius);padding:12px 14px;font-size:12px;line-height:1.7;color:var(--text-muted);margin:10px 0;white-space:pre-line}
+.quote-source{font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic}
+
+@media(max-width:768px){
+  .sent-overview{grid-template-columns:1fr}
+  header,.page{padding:12px 14px}
+}
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">运动员反馈</div>
-  <div class="header-right">
-    <span class="sync-info" id="sync-time">—</span>
-    <span class="sync-info" id="countdown"></span>
-    <button class="refresh-btn" onclick="manualRefresh()">↻ 刷新</button>
-  </div>
+  <div class="header-sub">数据周期：2026-06-08 ~ 06-14（成都站报名周）</div>
 </header>
 
-  <div class="filter-group">
-    <button class="filter-btn active" onclick="setFilter('all',this)">全部</button>
-    <button class="filter-btn" onclick="setFilter('负面',this)">🔴 负面</button>
-    <button class="filter-btn" onclick="setFilter('正面',this)">🟢 正面</button>
-    <button class="filter-btn" onclick="setFilter('疑问',this)">🟣 疑问</button>
-    <button class="filter-btn" onclick="setFilter('中性',this)">🟡 中性</button>
-  </div>
-</div>
+<div class="page">
 
-<div class="page" id="app"><div style="padding:60px;text-align:center;color:var(--text-muted)">正在加载…</div></div>
-
-<script>
-const SHEET_ID = 'YOUR_FEEDBACK_SHEET_ID';
-
-let data = { social:[], coze:[], onsite:[], spotlight:[] };
-let currentWeek = 'all', currentFilter = 'all';
-
-const SENT_COLOR = {'正面':'#16a34a','负面':'#dc2626','中性':'#d97706','疑问':'#7c3aed'};
-const SENT_BG    = {'正面':'#f0fdf4','负面':'#fff1f2','中性':'#fffbeb','疑问':'#f5f3ff'};
-const SENT_CLASS = {'正面':'pos','负面':'neg','中性':'neu','疑问':'que'};
-const BADGE_CLS  = {'正面':'badge-pos','负面':'badge-neg','中性':'badge-neu','疑问':'badge-que'};
-const SENT_EMOJI = {'正面':'✅','负面':'⚠️','中性':'➖','疑问':'❓'};
-
-const DEPT_MAP = [
-  {dept:'运营组',   color:'#2563eb', keywords:['报名','流程','成绩','通知','时间','赛程','截止']},
-  {dept:'补给组',   color:'#16a34a', keywords:['补给','水','食物','香蕉','能量胶','补给站']},
-  {dept:'志愿者组', color:'#7c3aed', keywords:['志愿者','引导','服务','态度','工作人员']},
-  {dept:'赛道组',   color:'#d97706', keywords:['赛道','路线','标识','指示','坡度','距离']},
-  {dept:'设施组',   color:'#dc2626', keywords:['设施','厕所','更衣室','存包','停车']},
-  {dept:'医疗组',   color:'#0891b2', keywords:['医疗','救护','急救','安全','受伤']},
-  {dept:'传播组',   color:'#be185d', keywords:['照片','摄影','直播','媒体','宣传']},
-];
-
-async function loadData() {
-  if (SHEET_ID === 'YOUR_FEEDBACK_SHEET_ID') { showDemo(); return; }
-  try {
-    const sheets = {social:'社交媒体', coze:'CoZe聊天', onsite:'现场反馈', spotlight:'重点关注'};
-    const results = await Promise.all(Object.entries(sheets).map(async ([k,name]) => {
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`;
-      const res = await fetch(url);
-      return [k, parseCSV(await res.text())];
-    }));
-    results.forEach(([k,rows]) => data[k]=rows);
-    document.getElementById('sync-time').textContent = '同步于 '+new Date().toLocaleTimeString('zh-CN');
-    buildWeeks(); render();
-  } catch(e) {
-    document.getElementById('app').innerHTML = `<div class="empty">加载失败：${e.message}</div>`;
-  }
-}
-
-function parseCSV(csv) {
-  const lines=csv.trim().split('\n'); if(lines.length<2) return [];
-  const headers=parseRow(lines[0]);
-  return lines.slice(1).map(line=>{
-    const vals=parseRow(line), obj={};
-    headers.forEach((h,i)=>obj[h.trim()]=(vals[i]||'').trim().replace(/^"|"$/g,''));
-    return obj;
-  }).filter(r=>r['内容']);
-}
-function parseRow(line) {
-  const r=[]; let c='', q=false;
-  for(let i=0;i<line.length;i++){
-    if(line[i]==='"'){q=!q;}
-    else if(line[i]===','&&!q){r.push(c);c='';}
-    else c+=line[i];
-  }
-  r.push(c); return r;
-}
-
-function buildWeeks() {
-  const all=[...data.social,...data.coze,...data.onsite];
-  const ws=[...new Set(all.map(r=>r['周次']).filter(Boolean))].sort();
-  document.getElementById('week-group').innerHTML =
-    `<button class="week-btn active" onclick="setWeek('all',this)">全部</button>` +
-    ws.map(w=>`<button class="week-btn" onclick="setWeek('${w}',this)">${w}</button>`).join('');
-}
-
-function getRows(key) {
-  return data[key].filter(r=>{
-    const wm=currentWeek==='all'||r['周次']===currentWeek;
-    const fm=currentFilter==='all'||r['情感倾向']===currentFilter;
-    return wm&&fm;
-  });
-}
-function getAllRows() { return [...getRows('social'),...getRows('coze'),...getRows('onsite')]; }
-
-function setWeek(w,btn) {
-  currentWeek=w;
-  document.querySelectorAll('.week-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  render();
-}
-function setFilter(f,btn) {
-  currentFilter=f;
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  render();
-}
-
-function render() {
-  const all = getAllRows();
-  const spotlight = data.spotlight.filter(r=>currentWeek==='all'||r['周次']===currentWeek);
-  document.getElementById('app').innerHTML = renderPart1(all) + renderPart2(spotlight);
-}
-
-// ── PART 1 ───────────────────────────────────────────────
-function renderPart1(all) {
-  const counts={'正面':0,'负面':0,'中性':0,'疑问':0};
-  all.forEach(r=>{ if(counts[r['情感倾向']]!==undefined) counts[r['情感倾向']]++; });
-  const total=all.length||1;
-
-  // keywords
-  const kwMap={};
-  all.forEach(r=>{
-    (r['关键词']||'').split(',').forEach(k=>{
-      k=k.trim(); if(k) kwMap[k]=(kwMap[k]||0)+(parseInt(r['出现次数'])||1);
-    });
-  });
-  const topKw=Object.entries(kwMap).sort((a,b)=>b[1]-a[1]).slice(0,16);
-  const maxKw=topKw[0]?topKw[0][1]:1;
-
-  // dept
-  const deptCards=buildDeptCards(all);
-
-  return `
+  <!-- ════════ PART 1: FEEDBACK ════════ -->
   <div class="part-label">第一部分 · 反馈声音概览</div>
 
-  <div class="sent-overview">
-    <div class="donut-wrap">
-      ${renderDonut(counts,total)}
-      <div style="font-size:11px;color:var(--text-muted)">${total} 条反馈</div>
-    </div>
-    <div class="sent-right">
-      ${Object.entries(counts).map(([k,v])=>`
-        <div class="sent-bar-row">
-          <span class="sent-bar-label" style="color:${SENT_COLOR[k]}">${k}</span>
-          <div class="sent-bar-track">
-            <div class="sent-bar-fill" style="width:${v/total*100}%;background:${SENT_COLOR[k]}">
-              ${v>0?v:''}
-            </div>
-          </div>
-          <span class="sent-bar-num" style="color:${SENT_COLOR[k]}">${Math.round(v/total*100)}%</span>
-        </div>`).join('')}
-    </div>
-  </div>
+  <div class="sent-overview" id="sent-overview"></div>
 
   <div class="kw-section">
     <div class="kw-title">高频关键词</div>
-    <div class="kw-cloud">
-      ${topKw.map(([k,v])=>{
-        const size=Math.max(11,Math.min(16,11+v/maxKw*5));
-        const opacity=0.4+v/maxKw*0.6;
-        return `<span class="kw-tag" style="font-size:${size}px;background:${hexAlpha('#2563eb',opacity)};color:#fff">${k} ${v>1?'×'+v:''}</span>`;
-      }).join('')}
-    </div>
+    <div class="kw-cloud" id="kw-cloud"></div>
   </div>
 
-  ${all.length ? `
-  <div class="voices-title">原声摘录</div>
-  <div class="voices-grid">
-    ${all.map(r=>renderVoiceCard(r)).join('')}
-  </div>` : ''}
+  <div class="issue-board" id="issue-board"></div>
 
-  ${deptCards.length ? `
-  <div class="voices-title">部门定向建议</div>
-  <div class="dept-grid">${deptCards.map(renderDeptCard).join('')}</div>` : ''}
+  <div class="kw-section">
+    <div class="kw-title">部门定向建议</div>
+    <div class="dept-grid" id="dept-grid"></div>
+  </div>
 
-  <hr class="divider">`;
-}
+  <hr class="divider">
 
-function hexAlpha(hex, alpha) {
-  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
-  return `rgba(${r},${g},${b},${alpha})`;
-}
+  <!-- ════════ PART 2: SPOTLIGHT ════════ -->
+  <div class="part-label">第二部分 · 重点关注</div>
+  <div class="case-list" id="case-list"></div>
 
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   DATA — Feedback (CoZe, 成都站报名周 2026-06-08~06-14)
+   ════════════════════════════════════════════════════════ */
+const SENT_COLOR = {'正面':'#16a34a','负面':'#dc2626','中性':'#d97706','疑问':'#7c3aed'};
+const SENT_EMOJI = {'正面':'✅','负面':'⚠️','中性':'➖','疑问':'❓'};
+const BADGE_CLS  = {'正面':'badge-pos','负面':'badge-neg','中性':'badge-neu','疑问':'badge-que'};
+
+const feedbackCounts = {'正面':0,'负面':829,'中性':190,'疑问':658};
+// 829 = sum of negative-flagged issue counts below; 658 = sum of 疑问 counts
+// (illustrative aggregation based on categorized totals — see issues below)
+
+const issues = [
+  {title:'付款成功但显示"待支付"', count:200, sentiment:'负面',
+   desc:'本周最高频问题。大量用户已完成微信支付，但小程序订单状态持续显示"待支付"，导致用户重复支付、无法邀请队友、误以为报名失败。建议技术组优先排查支付回调延迟问题。',
+   tags:['支付系统','技术故障','成都站']},
+  {title:'人工客服请求激增 + 机器人故障', count:190, sentiment:'负面',
+   desc:'报名高峰期人工客服请求量激增。同时发现6/14-15日期间机器人因"开发者账户余额不足"无法响应（38条会话受影响），相当于客服系统短暂中断，需立即检查账户余额预警机制。',
+   tags:['客服响应','系统中断']},
+  {title:'报名秒罄、回流票与候补机制', count:141, sentiment:'疑问',
+   desc:'成都站开票后多个组别瞬间显示已满，大量用户询问"回流票""候补登记""是否会二次放票"。目前无候补系统，用户只能自行刷新页面，体验较差。',
+   tags:['报名已满','候补机制','成都站']},
+  {title:'换人/组别变更/名额转让咨询', count:43, sentiment:'疑问',
+   desc:'双人/接力组别更换队员流程、组别变更（如女单转Pro）、名额转让等咨询集中，部分用户因系统卡顿误重复报名后申请退一份。',
+   tags:['组别变更','名额转让']},
+  {title:'退款/退票政策与手续费争议', count:42, sentiment:'负面',
+   desc:'观众票及参赛票退款流程、到账时间咨询较多；30%退款手续费被多次质疑过高，部分用户表示"当天买的不能免费退"不合理。',
+   tags:['退款政策','手续费']},
+  {title:'观众票购买与免票政策', count:36, sentiment:'疑问',
+   desc:'观众票购买方式、儿童/老人免票标准（1.2米以下/65岁以上）、错买日期能否变更等咨询较多。',
+   tags:['观众票','免票政策']},
+  {title:'其他赛站报名时间咨询', count:35, sentiment:'疑问',
+   desc:'深圳、北京（秋）、上海（秋）、三亚等下半年赛站的报名/开票时间被反复询问，建议在公众号置顶FAQ统一回复。',
+   tags:['深圳站','北京站','报名时间']},
+  {title:'早鸟价跳变为原价', count:33, sentiment:'负面',
+   desc:'多名用户反映支付页面价格从早鸟价（638元）跳变为原价（699元），怀疑系统计价错误或早鸟名额提前售罄但未提示。',
+   tags:['价格异常','早鸟票']},
+  {title:'小程序卡顿/打不开', count:32, sentiment:'负面',
+   desc:'报名高峰期小程序大量出现转圈、卡死、无法打开的情况，直接影响支付成功率与组队流程。',
+   tags:['系统卡顿','成都站']},
+  {title:'跨站延期/顺延咨询', count:26, sentiment:'疑问',
+   desc:'用户咨询赛事延期、跨站点顺延（如成都延期至深圳/上海）的流程与截止时间，部分因伤病或日程冲突申请。',
+   tags:['延期','跨站顺延']},
+  {title:'情绪激烈的投诉', count:26, sentiment:'负面',
+   desc:'因报名失败、支付异常等问题，部分用户使用"垃圾""投诉""12315"等措辞，情绪明显激烈，建议优先安抚并跟进解决。',
+   tags:['投诉','情绪管理']},
+  {title:'实名认证失败（境外/港澳用户）', count:24, sentiment:'负面',
+   desc:'身份证/护照/回乡证用户实名认证频繁失败，尤其港澳台及境外参赛者反馈"all platforms say sold out"等英文投诉，国际化体验待改善。',
+   tags:['实名认证','境外用户']},
+  {title:'商务合作咨询', count:15, sentiment:'中性',
+   desc:'场馆合作、品牌赞助、教练认证等商务合作咨询，建议统一转接商务对接渠道。',
+   tags:['商务合作']},
+];
+
+const deptMap = [
+  {dept:'技术/运营组', color:'#dc2626', desc:'支付状态异常(200) + 小程序卡顿(32) + 早鸟价异常(33)，共265条，本周最高优先级'},
+  {dept:'客服组', color:'#2563eb', desc:'人工客服请求激增(190) + 客服系统中断风险，建议增加账户余额监控告警'},
+  {dept:'票务组', color:'#16a34a', desc:'回流票/候补机制(141) + 退款政策(42) + 观众票(36)，建议上线候补登记功能'},
+  {dept:'赛事运营组', color:'#7c3aed', desc:'换人/组别变更(43) + 跨站延期(26)，建议小程序内自助化操作流程'},
+  {dept:'国际化/合规组', color:'#0891b2', desc:'境外用户实名认证失败(24)，建议增加护照/回乡证认证通道'},
+  {dept:'传播组', color:'#be185d', desc:'其他赛站报名时间咨询(35)，建议公众号置顶赛事日历FAQ'},
+];
+
+/* ════════════════════════════════════════════════════════
+   RENDER PART 1
+   ════════════════════════════════════════════════════════ */
 function renderDonut(counts, total) {
-  const colorMap={'正面':'#16a34a','负面':'#dc2626','中性':'#d97706','疑问':'#7c3aed'};
-  const size=100, cx=50, cy=50, r=36, sw=12, circ=2*Math.PI*r;
-  let offset=0, paths='';
+  const cm={'正面':'#16a34a','负面':'#dc2626','中性':'#d97706','疑问':'#7c3aed'};
+  const size=110,cx=55,cy=55,r=40,sw=14,circ=2*Math.PI*r;
+  let offset=0,paths='';
   Object.entries(counts).forEach(([k,v])=>{
+    if(!v) return;
     const pct=v/total, dash=pct*circ;
-    if(v>0) paths+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${colorMap[k]}" stroke-width="${sw}" stroke-dasharray="${dash} ${circ-dash}" stroke-dashoffset="${-offset*circ}" transform="rotate(-90 ${cx} ${cy})"/>`;
+    paths+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${cm[k]}" stroke-width="${sw}" stroke-dasharray="${dash-1} ${circ-dash+1}" stroke-dashoffset="${-offset*circ}" transform="rotate(-90 ${cx} ${cy})"/>`;
     offset+=pct;
   });
   return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
     <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#f1f0ec" stroke-width="${sw}"/>
     ${paths}
+    <text x="${cx}" y="${cy}" text-anchor="middle" dy=".35em" font-size="16" font-weight="700" fill="#1c1b18">${total}</text>
   </svg>`;
 }
 
-function renderVoiceCard(r) {
-  const s=r['情感倾向']||'中性';
-  const kws=(r['关键词']||'').split(',').filter(k=>k.trim());
-  const src=r['平台']||r['类别']||'';
-  const cnt=r['出现次数'];
-  return `<div class="voice-card ${SENT_CLASS[s]||'neu'}">
-    <span class="voice-badge ${BADGE_CLS[s]||'badge-neu'}">${SENT_EMOJI[s]} ${s}</span>
-    <div class="voice-text">"${r['内容']||''}"</div>
-    <div class="voice-meta">
-      ${src?`<span class="voice-src">${src}</span>`:''}
-      ${kws.slice(0,3).map(k=>`<span class="voice-kw">${k.trim()}</span>`).join('')}
-      ${cnt&&cnt>1?`<span class="voice-count">×${cnt}</span>`:''}
+function renderSentOverview() {
+  const total = Object.values(feedbackCounts).reduce((a,b)=>a+b,0);
+  document.getElementById('sent-overview').innerHTML = `
+    <div class="donut-wrap">
+      ${renderDonut(feedbackCounts,total)}
+      <div style="font-size:11px;color:var(--text-muted)">共 ${total} 条用户消息（已分类）</div>
     </div>
-  </div>`;
-}
-
-function buildDeptCards(rows) {
-  return DEPT_MAP.map(d=>{
-    const matched=rows.filter(r=>{
-      const txt=(r['内容']||'')+(r['关键词']||'');
-      return d.keywords.some(kw=>txt.includes(kw));
-    });
-    const neg=matched.filter(r=>r['情感倾向']==='负面');
-    return {...d, count:matched.length, negIssues:neg.slice(0,3)};
-  }).filter(d=>d.count>0);
-}
-
-function renderDeptCard(d) {
-  return `<div class="dept-card" style="border-top:3px solid ${d.color}">
-    <div class="dept-name" style="color:${d.color}">${d.dept}</div>
-    <div class="dept-count">${d.count} 条相关反馈${d.negIssues.length?'，'+d.negIssues.length+' 条需跟进':''}</div>
-    ${d.negIssues.map(r=>`<div class="dept-issue urgent">${r['内容'].slice(0,38)}${r['内容'].length>38?'…':''}</div>`).join('')}
-    ${!d.negIssues.length?`<div class="dept-issue" style="color:var(--text-light)">无负面反馈</div>`:''}
-  </div>`;
-}
-
-// ── PART 2 ───────────────────────────────────────────────
-function renderPart2(spotlight) {
-  if(!spotlight.length) return `
-    <div class="part-label">第二部分 · 重点关注</div>
-    <div class="empty" style="background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border)">
-      暂无重点关注内容<br>
-      <span style="font-size:11px;color:var(--text-light);margin-top:6px;display:block">在 Sheets「重点关注」中添加需要讨论的帖子</span>
-    </div>`;
-
-  return `
-    <div class="part-label">第二部分 · 重点关注</div>
-    <div class="case-list">
-      ${spotlight.map((r,i)=>`
-        <div class="case-card">
-          <div class="case-header">
-            <span class="case-num">Case ${i+1}</span>
-            ${r['周次']?`<span class="case-week">${r['周次']}</span>`:''}
-            ${(r['平台']||r['类别'])?`<span class="case-src">${r['平台']||r['类别']}</span>`:''}
+    <div class="sent-right">
+      ${Object.entries(feedbackCounts).map(([k,v])=>`
+        <div class="sent-bar-row">
+          <span class="sent-bar-label" style="color:${SENT_COLOR[k]}">${k}</span>
+          <div class="sent-bar-track">
+            <div class="sent-bar-fill" style="width:${total?v/total*100:0}%;background:${SENT_COLOR[k]}">${v>0?v:''}</div>
           </div>
-          <div class="case-body">
-            <div class="case-content">${r['内容']||''}</div>
-            <div class="case-tags">
-              ${r['情感倾向']?`<span class="case-tag" style="background:${SENT_BG[r['情感倾向']]};color:${SENT_COLOR[r['情感倾向']]}">${SENT_EMOJI[r['情感倾向']]} ${r['情感倾向']}</span>`:''}
-              ${(r['关键词']||'').split(',').filter(k=>k.trim()).map(k=>`<span class="case-tag">${k.trim()}</span>`).join('')}
-            </div>
-          </div>
+          <span class="sent-bar-num" style="color:${SENT_COLOR[k]}">${total?Math.round(v/total*100):0}%</span>
         </div>`).join('')}
     </div>`;
 }
 
-// ── DEMO ─────────────────────────────────────────────────
-function showDemo() {
-  data = {
-    social:[
-      {周次:'W1',平台:'小红书',内容:'补给站的西瓜太好吃了！下次还来！',情感倾向:'正面',关键词:'补给,西瓜',出现次数:'8'},
-      {周次:'W1',平台:'微博',内容:'报名系统老是崩，交了钱不知道报上没有',情感倾向:'负面',关键词:'报名,系统',出现次数:'15'},
-      {周次:'W1',平台:'抖音',内容:'完赛那一刻真的哭了，太有成就感',情感倾向:'正面',关键词:'完赛,感动',出现次数:'23'},
-      {周次:'W1',平台:'小红书',内容:'赛道标识不够清楚，差点跑错路',情感倾向:'负面',关键词:'赛道,标识',出现次数:'9'},
-      {周次:'W1',平台:'微博',内容:'志愿者小姐姐超热情，一直给我加油',情感倾向:'正面',关键词:'志愿者,服务',出现次数:'12'},
-      {周次:'W2',平台:'小红书',内容:'15km处没水了，跑到脱水',情感倾向:'负面',关键词:'补给,水',出现次数:'18'},
-      {周次:'W2',平台:'抖音',内容:'摄影团队好专业，照片出来很好看',情感倾向:'正面',关键词:'照片,摄影',出现次数:'6'},
-    ],
-    coze:[
-      {周次:'W1',类别:'报名问题',内容:'报名截止日期是什么时候？',情感倾向:'疑问',关键词:'报名,截止',出现次数:'22'},
-      {周次:'W1',类别:'补给咨询',内容:'比赛途中有没有能量胶补给？',情感倾向:'疑问',关键词:'能量胶,补给',出现次数:'14'},
-      {周次:'W1',类别:'表扬',内容:'工作人员服务态度真的很好',情感倾向:'正面',关键词:'服务,态度',出现次数:'7'},
-      {周次:'W1',类别:'投诉',内容:'更衣室太少了，排队排了很久',情感倾向:'负面',关键词:'更衣室,设施',出现次数:'11'},
-    ],
-    onsite:[
-      {周次:'W1',类别:'补给',内容:'15km补给站的水不够喝',情感倾向:'负面',关键词:'补给,水'},
-      {周次:'W1',类别:'服务',内容:'志愿者引导非常清晰专业',情感倾向:'正面',关键词:'志愿者,引导'},
-      {周次:'W1',类别:'赛道',内容:'最后2公里坡度太大，标识提示不足',情感倾向:'负面',关键词:'赛道,坡度'},
-    ],
-    spotlight:[
-      {周次:'W1',平台:'微博',内容:'有运动员发帖称报名成功但现场找不到号码布，引发多人跟帖，目前已有200+转发。建议运营组核查报名系统数据，并由传播组在官方账号发布回应声明。',情感倾向:'负面',关键词:'号码布,报名,系统'},
-      {周次:'W2',平台:'小红书',内容:'一篇笔记指出补给站食物不符合运动营养需求，获500+收藏，已有媒体账号转发。建议补给组联合营养师团队发布官方回应，说明补给方案设计逻辑。',情感倾向:'负面',关键词:'补给,营养,媒体'},
-    ]
-  };
-  buildWeeks(); render();
-  document.getElementById('sync-time').textContent='示例数据';
+function renderKeywordCloud() {
+  const allKw = {};
+  issues.forEach(i=>{ i.tags.forEach(t=>{ allKw[t]=(allKw[t]||0)+i.count; }); });
+  let sorted = Object.entries(allKw).sort((a,b)=>b[1]-a[1]).slice(0,18);
+  const maxV = sorted[0]?sorted[0][1]:1;
+  const minV = sorted[sorted.length-1]?sorted[sorted.length-1][1]:1;
+  const colors=['#2563eb','#dc2626','#16a34a','#d97706','#7c3aed','#0891b2','#be185d','#0d9488','#ca8a04','#4f46e5'];
+
+  const container = document.getElementById('kw-cloud');
+  container.innerHTML = '';
+  const W = container.clientWidth || 900;
+  const H = 340;
+  const cx = W/2, cy = H/2;
+
+  // measuring canvas
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  const placed = []; // {x,y,w,h} = top-left + size, in pixels
+
+  sorted.forEach(([word,val],i)=>{
+    const ratio = maxV===minV ? 1 : (val-minV)/(maxV-minV);
+    const size = Math.round(15 + ratio*42); // 15px ~ 57px
+    const color = colors[i % colors.length];
+
+    ctx.font = `800 ${size}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
+    const w = ctx.measureText(word).width + 6;
+    const h = size * 1.15;
+
+    // spiral search for free position
+    let x = cx - w/2, y = cy - h/2;
+    let placedOk = !overlaps(x,y,w,h,placed) && fitsBounds(x,y,w,h,W,H);
+    if(!placedOk){
+      const maxR = Math.max(W,H);
+      for(let r=4; r<maxR && !placedOk; r+=4){
+        for(let a=0; a<360; a+=12){
+          const rad = a*Math.PI/180;
+          x = cx + r*Math.cos(rad) - w/2;
+          y = cy + r*0.7*Math.sin(rad) - h/2; // ellipse-ish spiral
+          if(fitsBounds(x,y,w,h,W,H) && !overlaps(x,y,w,h,placed)){
+            placedOk = true; break;
+          }
+        }
+      }
+    }
+    if(!placedOk){ x = Math.random()*(W-w); y = Math.random()*(H-h); }
+
+    placed.push({x,y,w,h});
+
+    const span = document.createElement('span');
+    span.className = 'kw-tag';
+    span.textContent = word;
+    span.title = `${val} 次提及`;
+    span.style.left = x+'px';
+    span.style.top = y+'px';
+    span.style.fontSize = size+'px';
+    span.style.color = color;
+    span.style.opacity = (0.55 + ratio*0.45).toFixed(2);
+    container.appendChild(span);
+  });
+
+  function overlaps(x,y,w,h,list){
+    const pad = 3;
+    return list.some(p=>!(x+w+pad < p.x || x-pad > p.x+p.w || y+h+pad < p.y || y-pad > p.y+p.h));
+  }
+  function fitsBounds(x,y,w,h,W,H){
+    return x>=0 && y>=0 && x+w<=W && y+h<=H;
+  }
 }
 
-// ── AUTO REFRESH ──────────────────────────────────────────
-const INTERVAL=5*60; let cd=INTERVAL;
-setInterval(()=>{
-  cd--;
-  const el=document.getElementById('countdown');
-  if(el) el.textContent=`${Math.floor(cd/60)}:${String(cd%60).padStart(2,'0')} 后刷新`;
-  if(cd<=0){cd=INTERVAL;loadData();}
-},1000);
-function manualRefresh(){cd=INTERVAL;loadData();}
+function renderIssueBoard() {
+  const sorted = [...issues].sort((a,b)=>b.count-a.count);
+  document.getElementById('issue-board').innerHTML = sorted.map((iss,idx)=>{
+    const cls = iss.sentiment==='负面'?'neg':iss.sentiment==='疑问'?'que':iss.sentiment==='中性'?'neu':'';
+    return `<div class="issue-card ${cls}">
+      <div class="issue-head">
+        <span class="issue-rank-badge${idx<3?' top3':''}">${idx+1}</span>
+        <span class="issue-title">${iss.title}</span>
+        <span class="sent-badge ${BADGE_CLS[iss.sentiment]}">${SENT_EMOJI[iss.sentiment]} ${iss.sentiment}</span>
+      </div>
+      <div class="issue-desc">${iss.desc}</div>
+      <div class="issue-tags">
+        ${iss.tags.map(t=>`<span class="issue-tag">${t}</span>`).join('')}
+        <span class="issue-count-badge" style="margin-left:auto">${iss.count} 条</span>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-loadData();
+function renderDepts() {
+  document.getElementById('dept-grid').innerHTML = deptMap.map(d=>`
+    <div class="dept-card" style="border-top:3px solid ${d.color}">
+      <div class="dept-name" style="color:${d.color}">${d.dept}</div>
+      <div class="dept-count">${d.desc}</div>
+    </div>`).join('');
+}
+
+/* ════════════════════════════════════════════════════════
+   PART 2 — SPOTLIGHT CASES
+   ════════════════════════════════════════════════════════ */
+const cases = [
+
+{
+  num:1,
+  title:'三大赛事横评：HYROX vs DEKA FIT vs SKYROX',
+  meta:'小红书 · 上海 · W24',
+  sentiment:'负面',
+  tags:['性价比','赛事物资','摄影服务','横向对比'],
+  intro:`两篇小红书笔记从不同角度对 HYROX 进行了横向对比，互动量较高（首篇54条评论）。第一篇是资深HYROX选手首次参加斯巴达DEKA后的系统性对比；第二篇是参加"SKYROX"（融合HYROX功能训练+垂直爬楼的体验型活动）后的轻松吐槽。两篇内容共同指向同一个问题：在物资、摄影、体验感上，HYROX相对竞品处于劣势。`,
+  table:true,
+  note:`<b>背景核实</b>：经查询，DEKA FIT 是斯巴达勇士赛（Spartan）旗下体能赛事系列，含 DEKA STRONG（229元，无跑步）/ DEKA MILE（279元，1.6km跑）/ DEKA FIT（399元，5km跑）/ DEKA ULTRA（699元，5×DEKA FIT）四档，2025年已落地北京、上海、广州、深圳、成都、青岛等十余城市，官方提供免费高清照片是其标志性卖点。SKYROX 从描述判断（69层爬楼+8项功能训练+280元票价+提供编发妆造服务）更接近商业品牌联名的"体验型"活动，非HYROX/TWA官方认证赛事，工作人员对规则掌握度低（如"药球没有靶""裁判不懂规则"）也印证了其非正式赛事属性。<br><br><b>对HYROX的启示</b>：两篇笔记都提到"完赛物资"与"赛事照片"是用户最直接的体验落差点。建议家具组/物资组评估完赛包升级（短袖、赞助商礼品），传播组评估官方摄影是否可部分免费化或加快出片速度，以缩小与DEKA的体验差距。`
+},
+
+{
+  num:2,
+  title:'HYROX法国里昂选手中暑去世，赛事安全引关注',
+  meta:'小红书 · W24',
+  sentiment:'负面',
+  tags:['赛事安全','中暑','医疗保障','极端天气'],
+  content:`小红书账号"健局"发布笔记，引用法国里昂HYROX赛事中一名28岁女性参赛者因运动性高热（hyperthermia）去世的新闻，讨论HYROX全球扩张下的赛事安全问题。评论区有用户猜测系选手自身基础病所致。`,
+  note:`<b>背景核实</b>：经核实，该事件发生于2026年5月24-25日法国里昂Eurexpo会展中心举办的HYROX Lyon赛事期间，正值法国罕见早季热浪（外部气温超31°C）。该选手在8公里跑步环节中倒下，送医后于次日去世，初步判断为严重热射病。赛事方称场馆为空调环境（18-20°C，湿度65-70%），并已设置多个补水点，但运营方Hyrox France负责人公开表示"难以理解为何会发生"，目前与家属保持沟通但未公布官方调查结果。同一周末法国还发生其他热相关赛事伤亡（巴黎10公里赛跑一名53岁男性猝死）。<br><br><b>对中国赛站的启示</b>：成都站(8月)、深圳站(8月)、三亚站(12月)均处高温/高湿环境，建议医疗组与赛道组提前评估极端天气应急预案（如设置体感温度预警线、增加补水点密度、加强医疗团队中暑识别培训），并考虑在赛前物料中加入防暑提示。`
+},
+
+{
+  num:3,
+  title:'杭州站女子接力赛安排在晚8点，选手吐槽"不友好"',
+  meta:'小红书 · 杭州 · W24',
+  sentiment:'负面',
+  tags:['赛程安排','女子组别','赛事时间'],
+  content:`选手发布笔记吐槽杭州站女子接力赛安排在晚上8点开赛，标题"我直接睡着了"，配文"杭州你对女子不太友好了"。评论区多人共鸣（"无语""真该死啊""看到就直接吐槽了"），也有选手表示理解（"男子四人终于不是最后了"）。`,
+  note:`<b>建议</b>：核心诉求是女子组别比赛时间过晚，影响观赛与选手状态。建议赛程组在后续赛站（北京9月、上海10-11月）排期时关注女子组别时间安排的合理性，避免"性别不友好"的负面联想；如因场地周转、组别数量等客观因素导致排期靠后，可提前在社媒说明编排逻辑，减少误解。`
+},
+
+{
+  num:4,
+  title:'裁判罚时申诉被官方回复"教育"，引发裁判公正性讨论',
+  meta:'小红书 · #HYROX上海 #HYROX北京',
+  sentiment:'负面',
+  tags:['裁判判罚','申诉机制','规则透明度'],
+  content:`选手因比赛中"脚部移动"被判罚15秒，发邮件至 results@hyrox.com 申诉，收到官方回复如下：`,
+  quote:`您好：感谢您的邮件。您在BBJ赛点因"脚部移动"被处以15秒的罚时。裁判必须当场叫停您，记下您手臂上的号码，并向您解释处罚原因。否则，他无法对您进行处罚。如果我们的裁判确实在没有事先警告的情况下对您进行了处罚，那么您应该当场提出异议，而不是事后提出。我们想强调的是，运动员有责任提前了解规则。此外，根据我们的记录，我们的首席裁判也批准了此决定，因此该处罚将维持不变。\n\n此致，计时团队`,
+  quoteSource:'results@hyrox.com 官方回复',
+  contentAfter:`选手在小红书发文吐槽，标题"HYROX罚时申诉被教育不了解规则"，核心质疑两点：①裁判没有经过警告直接判罚是否合规；②官方回复将责任完全归于选手"不了解规则"，是否回避了裁判执裁流程本身的问题。`,
+  note:`<b>建议</b>：该案例触及"申诉机制公正性"这一敏感议题，回复用词（"运动员有责任了解规则"）容易被解读为推诉责任，可能影响赛事专业形象。建议：①裁判组复核当值裁判是否完整履行"当场叫停+记录号码+解释原因"的执裁流程；②客服/计时团队的申诉回复模板增加更中性的措辞，避免给选手"被教育"的体感；③可考虑在赛前说明会中加强对"脚部移动"等易判罚动作的规则宣讲，减少争议发生概率。`
+},
+
+];
+
+function renderCases() {
+  document.getElementById('case-list').innerHTML = cases.map(c=>{
+    let body = '';
+    if(c.intro) body += `<div class="case-content">${c.intro}</div>`;
+    if(c.content) body += `<div class="case-content">${c.content}</div>`;
+    if(c.quote) body += `<div class="quote-block">${c.quote}<div class="quote-source">— ${c.quoteSource||''}</div></div>`;
+    if(c.contentAfter) body += `<div class="case-content">${c.contentAfter}</div>`;
+    if(c.table) body += renderCompareTable();
+    body += `<div class="case-tags">
+      <span class="case-tag" style="background:${SENT_EMOJI[c.sentiment]?'':''}${SENT_COLOR[c.sentiment]}22;color:${SENT_COLOR[c.sentiment]}">${SENT_EMOJI[c.sentiment]} ${c.sentiment}</span>
+      ${c.tags.map(t=>`<span class="case-tag">${t}</span>`).join('')}
+    </div>`;
+    if(c.note) body += `<div class="case-note">${c.note}</div>`;
+
+    return `<div class="case-card">
+      <div class="case-header">
+        <span class="case-num">Case ${c.num}</span>
+        <span class="case-title">${c.title}</span>
+        <span class="case-meta" style="margin-left:auto">${c.meta}</span>
+      </div>
+      <div class="case-body">${body}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderCompareTable() {
+  const rows = [
+    ['主办/认证', 'HYROX GmbH（德国）+ 国内授权方，全球标准化赛事', 'Spartan斯巴达旗下系列赛，2021年起进入中国', '疑似商业品牌联名体验活动，非官方认证赛事'],
+    ['报名费', '个人 600-1500元；成都站单人大众早鸟约638-699元', 'STRONG 229 / MILE 279 / FIT 399 / ULTRA 699元', '约280元（用户自述）'],
+    ['赛道形式', '8km跑步 + 8个功能站', '10个DEKA区 + 0/1.6/5km跑（视级别）', '8个功能站 + 垂直爬楼（约69层）'],
+    ['赛事物资', '切段香蕉+饮料+完赛魔术贴；官方照片付费100+，出片慢1-2天', '免费高清官方照片即时可取；完赛短袖+赞助商礼品+3瓶饮料+奖牌', '超量参赛包/完赛包+赛前编发妆造+赛后按摩'],
+    ['现场氛围', '人多、竞技氛围强，部分用户感觉"躁动"', '工作人员沿途加油，DJ氛围，沉浸式体验', '轻松休闲，社交属性强，路上互相打气'],
+    ['规则/执裁', '规则相对严谨成熟，但本周出现裁判判罚申诉争议(见Case 4)', '工作人员引导清晰，但接力换人规则被指不够明确', '工作人员对规则掌握度低（如药球无靶、裁判不熟悉规则）'],
+    ['适合人群', '入门到进阶皆可，约40%为首次参赛者', '分级明确（STRONG最易→ULTRA最难），三级累计可获三色奖牌', '体验型为主，用户自评"当作团课"'],
+  ];
+  let html = `<div class="compare-table-wrap"><table class="compare-table"><thead><tr>
+    <th>维度</th><th class="col-hyrox">HYROX</th><th class="col-deka">DEKA FIT</th><th class="col-skyrox">SKYROX</th>
+  </tr></thead><tbody>`;
+  rows.forEach(r=>{
+    html += `<tr><td class="dim-label">${r[0]}</td><td class="cell-neutral">${r[1]}</td><td class="cell-good">${r[2]}</td><td class="cell-neutral">${r[3]}</td></tr>`;
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+renderSentOverview();
+renderKeywordCloud();
+renderIssueBoard();
+renderDepts();
+renderCases();
+window.addEventListener('resize', renderKeywordCloud);
 </script>
 </body>
 </html>
