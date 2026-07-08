@@ -50,7 +50,7 @@
       color: var(--lime);
       display: grid; place-items: center;
       font-size: 15px;
-      letter-spacing: -.03em;
+      letter-spacing: 0;
     }
     .hero {
       min-height: 430px;
@@ -110,11 +110,7 @@
       line-height: 1.7;
       font-size: 15px;
     }
-    .hero-side {
-      display: grid;
-      grid-template-rows: 1fr 1fr;
-      gap: 14px;
-    }
+    .hero-side { display: grid; grid-template-rows: 1fr 1fr; gap: 14px; }
     .metric-board {
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -255,19 +251,6 @@
     th { background: #f3f6ee; font-size: 12px; color: #44503f; }
     .table-scroll { overflow-x: auto; margin-top: 12px; }
     .table-scroll table { min-width: 980px; }
-    .media-compare {
-      display: grid;
-      grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
-      gap: 14px;
-      align-items: start;
-      margin-top: 14px;
-    }
-    .media-compare img {
-      width: 100%;
-      border-radius: 8px;
-      border: 1px solid var(--line);
-      background: #fff;
-    }
     .actions { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
     .action {
       border-radius: 8px;
@@ -291,7 +274,7 @@
     .action p { margin: 0; color: var(--muted); line-height: 1.58; font-size: 13px; }
     footer { color: var(--soft); font-size: 12px; line-height: 1.6; padding: 20px 0 34px; }
     @media (max-width: 980px) {
-      .hero, .grid-2, .media-compare { grid-template-columns: 1fr; }
+      .hero, .grid-2 { grid-template-columns: 1fr; }
       .risk-grid, .actions { grid-template-columns: repeat(2, 1fr); }
       .case { grid-template-columns: 1fr; }
       .case-aside { border-right: 0; border-bottom: 1px solid var(--line); }
@@ -339,7 +322,7 @@
         <div>
           <div class="kicker">Part 1 · Customer Service Data</div>
           <h2>客服与机器人会话概览</h2>
-          <p class="sub">以下按用户原话做粗分类，避免机器人回复里的固定话术放大“报名/官方渠道”等关键词。由于大量“你好/人工/请问”等短句无法判定具体意图，单列为“其他/寒暄/难识别”。</p>
+          <p class="sub">以下按用户原话做粗分类，避免机器人回复里的固定话术放大“报名/官方渠道”等关键词。</p>
         </div>
       </div>
       <div class="grid-2 single-panel">
@@ -402,9 +385,7 @@
             <p>帖子核心情绪并不是单纯反对 Tim，而是质疑官方是否把镜头和资源过度给到流量人物。评论里出现“网红营销赛”“炒作活动”“导播全程跟拍”“有流量就配合违规拍摄”等表达。</p>
             <div class="quote">代表性反馈：营销取向跑偏，让人觉得不训练也可以来；普通热爱运动的人和强选手没有得到足够镜头，活动像在服务出片和流量。</div>
             <p><strong>内部判断：</strong>这是品牌定位风险。HYROX如果希望继续讲“新生代运动员”和“大众挑战”，就需要把KOL内容包装成“真实挑战过程”，而不是“特权镜头”。</p>
-            <div class="link-row">
-              <a class="link" href="https://www.xiaohongshu.com/explore/6a4a5a070000000006037bcf" target="_blank">小红书原帖</a>
-            </div>
+            <div class="link-row"><a class="link" href="https://www.xiaohongshu.com/explore/6a4a5a070000000006037bcf" target="_blank">小红书原帖</a></div>
           </div>
         </article>
 
@@ -418,55 +399,17 @@
             <p>demo 里的“HYROX vs DEKA vs SKYROX”横评已保留，并新增“全国举重与力量挑战赛邯郸站”作为第四列。公开搜索没有找到稳定官方资料，因此新增列基于微博原帖和你提供的赛事动作图整理。</p>
             <div class="table-scroll"><table>
               <thead>
-                <tr>
-                  <th>维度</th>
-                  <th>HYROX</th>
-                  <th>DEKA FIT</th>
-                  <th>SKYROX</th>
-                  <th>全国举重与力量挑战赛</th>
-                </tr>
+                <tr><th>维度</th><th>HYROX</th><th>DEKA FIT</th><th>SKYROX</th><th>全国举重与力量挑战赛</th></tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>主办/认证</td>
-                  <td>HYROX GmbH（德国）+ 国内授权，全球标准化赛事</td>
-                  <td>Spartan斯巴达旗下系列赛，2021年起进入中国</td>
-                  <td>疑似商业品牌联名体验活动，非官方认证赛事</td>
-                  <td>微博案例提及邯郸站；公开信息较少，暂按替代型力量体能赛事观察</td>
-                </tr>
-                <tr>
-                  <td>报名费</td>
-                  <td>个人 600-1500元；成都站单人大众早鸟约638-699元</td>
-                  <td>STRONG 229 / MILE 279 / FIT 399 / ULTRA 699元</td>
-                  <td>约280元（用户自述）</td>
-                  <td>微博原帖未披露报名费；用户重点提到“赛包超有诚意”</td>
-                </tr>
-                <tr>
-                  <td>赛事物资</td>
-                  <td>香蕉+饮料+魔术贴；官方照片付费100+，出片慢1-2天</td>
-                  <td>免费高清官方照片即时可取；完赛短袖+赞助商礼品+奖牌</td>
-                  <td>超量参赛包+完赛包+赛前编发妆造+赛后按摩</td>
-                  <td>微博用户明确正向评价赛包“超有诚意”，可作为HYROX物资体验的对照信号</td>
-                </tr>
-                <tr>
-                  <td>赛道形式</td>
-                  <td>8km跑步 + 8个功能站</td>
-                  <td>10个DEKA区 + 0/1.6/5km跑（视级别）</td>
-                  <td>8个功能站 + 垂直爬楼（约69层）</td>
-                  <td>5个800米跑步 + 10个力量体能动作</td>
-                </tr>
-                <tr>
-                  <td>规则/执裁</td>
-                  <td>规则成熟严谨，但本月出现裁判申诉争议</td>
-                  <td>工作人员引导清晰，换人规则被指不够明确</td>
-                  <td>裁判对规则掌握度低（如药球无靶）</td>
-                  <td>动作图列出固定次数/距离/重量标准，规则呈现较直观；实际执裁体验暂无更多公开样本</td>
-                </tr>
+                <tr><td>主办/认证</td><td>HYROX GmbH（德国）+ 国内授权，全球标准化赛事</td><td>Spartan斯巴达旗下系列赛，2021年起进入中国</td><td>疑似商业品牌联名体验活动，非官方认证赛事</td><td>微博案例提及邯郸站；公开信息较少，暂按替代型力量体能赛事观察</td></tr>
+                <tr><td>报名费</td><td>个人 600-1500元；成都站单人大众早鸟约638-699元</td><td>STRONG 229 / MILE 279 / FIT 399 / ULTRA 699元</td><td>约280元（用户自述）</td><td>微博原帖未披露报名费；用户重点提到“赛包超有诚意”</td></tr>
+                <tr><td>赛事物资</td><td>香蕉+饮料+魔术贴；官方照片付费100+，出片慢1-2天</td><td>免费高清官方照片即时可取；完赛短袖+赞助商礼品+奖牌</td><td>超量参赛包+完赛包+赛前编发妆造+赛后按摩</td><td>微博用户明确正向评价赛包“超有诚意”，可作为HYROX物资体验的对照信号</td></tr>
+                <tr><td>赛道形式</td><td>8km跑步 + 8个功能站</td><td>10个DEKA区 + 0/1.6/5km跑（视级别）</td><td>8个功能站 + 垂直爬楼（约69层）</td><td>5个800米跑步 + 10个力量体能动作</td></tr>
+                <tr><td>规则/执裁</td><td>规则成熟严谨，但本月出现裁判申诉争议</td><td>工作人员引导清晰，换人规则被指不够明确</td><td>裁判对规则掌握度低（如药球无靶）</td><td>动作图列出固定次数/距离/重量标准，规则呈现较直观；实际执裁体验暂无更多公开样本</td></tr>
               </tbody>
             </table></div>
-            <div class="link-row">
-              <a class="link" href="https://weibo.com/2880576741/R7shN0fPr?pagetype=detail" target="_blank">微博案例</a>
-            </div>
+            <div class="link-row"><a class="link" href="https://weibo.com/2880576741/R7shN0fPr?pagetype=detail" target="_blank">微博案例</a></div>
           </div>
         </article>
 
@@ -480,9 +423,7 @@
             <p>用户提到药球阶段同样遇到计数问题，但不同天、不同裁判处理方式不同；雪橇圈数需要自己数，滑雪机缺少裁判监督。评论里还出现“草台班子”“圈钱”等强负面表达。</p>
             <div class="quote">代表性反馈：当比赛因为人为裁判因素产生巨大差异，公平和严肃性就出现问题。</div>
             <p><strong>内部判断：</strong>这类问题应进入赛事运营SOP，而不是客服解释口径。关键是统一裁判处理、计数异常补救和选手申诉路径。</p>
-            <div class="link-row">
-              <a class="link" href="https://www.xiaohongshu.com/explore/6a118e120000000006034dcb" target="_blank">小红书原帖</a>
-            </div>
+            <div class="link-row"><a class="link" href="https://www.xiaohongshu.com/explore/6a118e120000000006034dcb" target="_blank">小红书原帖</a></div>
           </div>
         </article>
 
@@ -496,9 +437,7 @@
             <p>杭州站吐槽集中在混四接力等待区太小、入口出口路线容易跑错、观众看台拥挤、wallball区动线绕、官摄不足、burpee区域湿滑、农夫走赛道过窄等。</p>
             <div class="quote">代表性反馈：场地太小、跑道很滑、波比会摔、农夫走两个人就堵住，照片也很难拍。</div>
             <p><strong>内部判断：</strong>这不是单一体验问题，而是“安全 + 传播素材 + 选手动线”三件事互相影响。建议赛前用选手视角走一遍动线，并对易滑、易堵、易跑错区域做现场标识和人员加密。</p>
-            <div class="link-row">
-              <a class="link" href="https://www.xiaohongshu.com/explore/6a4af4f1000000002103f671" target="_blank">杭州站吐槽帖</a>
-            </div>
+            <div class="link-row"><a class="link" href="https://www.xiaohongshu.com/explore/6a4af4f1000000002103f671" target="_blank">杭州站吐槽帖</a></div>
           </div>
         </article>
 
@@ -535,6 +474,19 @@
             </div>
           </div>
         </article>
+
+        <article class="panel case">
+          <aside class="case-aside">
+            <div class="case-num">CASE 07</div>
+            <h3>年龄组资格举报：报名生日与实际年龄争议</h3>
+            <div class="chips"><span class="chip">参赛资格</span><span class="chip">年龄组</span><span class="chip">成绩公正</span><span class="chip">需核验</span></div>
+          </aside>
+          <div class="case-body">
+            <p>有选手举报：7月4日杭州站男单大众组中，超级猩猩（上海）教练 Black（曹波）被分入 16-24 年龄组并取得该年龄组第二名；举报称其出生日期为 2001年4月1日，比赛当日已满25周岁，疑似不应进入 16-24 年龄组。</p>
+            <div class="quote">内部核查信息：SportsPro 登记生日为 2001年11月5日，与举报所称生日 2001年4月1日不一致。</div>
+            <p><strong>内部判断：</strong>该 case 涉及年龄组资格、报名信息真实性和领奖台成绩公正，建议作为正式核验事项处理。需要比对 SportsPro 登记信息、报名证件信息、选手提交证件生日及最终成绩年龄组；在事实确认前，内部沟通应使用“信息不一致/需核验”口径，避免提前定性。</p>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -562,7 +514,6 @@
 
   <script>
     const categories = [
-      ["其他/寒暄/难识别", 747, "#8d9388"],
       ["报名/名额/候补", 203, "#177a4d"],
       ["照片/直播/成绩/证书", 190, "#265ebf"],
       ["人工客服/转接", 183, "#d47b24"],
